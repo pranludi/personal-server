@@ -15,12 +15,4 @@ public record Member(
   List<Item> items // 사용자 보유 아이템 목록
 ) implements MemberBuilder.With {
 
-  public Member() {
-    this(0, MemberStatus.NORMAL, new MemberName("", 0), LocalDateTime.now(), LocalDateTime.now(), List.of(), List.of());
-  }
-
-  public Member(int version, String memberName, LocalDateTime nowAt, List<Currency> currencies, List<Item> items) {
-    this(version, MemberStatus.NORMAL, new MemberName(memberName, 0), nowAt, nowAt, currencies, items);
-  }
-
 }

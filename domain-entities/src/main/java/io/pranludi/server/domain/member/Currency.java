@@ -1,7 +1,9 @@
 package io.pranludi.server.domain.member;
 
+import io.soabase.recordbuilder.core.RecordBuilder;
 import java.time.LocalDateTime;
 
+@RecordBuilder
 public record Currency(
   int dataId,
   long free,

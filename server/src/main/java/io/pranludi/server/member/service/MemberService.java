@@ -4,17 +4,18 @@ import io.pranludi.server.domain.member.Member;
 import io.pranludi.server.exception.MemberNotFoundException;
 import io.pranludi.server.member.repository.MemberRepository;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
 
-  @Autowired
-  MigrationService migrationService;
+  final MigrationService migrationService;
+  final MemberRepository memberRepository;
 
-  @Autowired
-  MemberRepository memberRepository;
+  public MemberService(MigrationService migrationService, MemberRepository memberRepository) {
+    this.migrationService = migrationService;
+    this.memberRepository = memberRepository;
+  }
 
   public Optional<Member> getMember(String memberId) {
     return memberRepository.findById(memberId);

@@ -2,14 +2,16 @@ package io.pranludi.server.member.service;
 
 import io.pranludi.server.domain.member.Member;
 import io.pranludi.server.metadata.service.MetadataService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MigrationService {
 
-  @Autowired
-  MetadataService metadataService;
+  final MetadataService metadataService;
+
+  public MigrationService(MetadataService metadataService) {
+    this.metadataService = metadataService;
+  }
 
   public Member migration(Member oldMember) {
     int currentVersion = metadataService.currentMemberVersion();

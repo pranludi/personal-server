@@ -3,22 +3,9 @@ plugins {
 }
 
 dependencies {
-    // implementation "com.couchbase.client:java-client:2.7.16" // 2.7.16
-    implementation "org.apache.commons:commons-lang3:3.10" // ??
-    // implementation "joda-time:joda-time:2.13.0" // ??
-    implementation "com.fasterxml.jackson.core:jackson-annotations:2.18.2"
-
     annotationProcessor 'io.soabase.record-builder:record-builder-processor:44'
     implementation 'io.soabase.record-builder:record-builder-core:44'
     compileOnly 'io.soabase.record-builder:record-builder-processor:44'
-
-    // annotationProcessor "org.projectlombok:lombok:1.18.30"
-    // compileOnly "org.projectlombok:lombok:1.18.30"
-    // testCompileOnly "org.projectlombok:lombok:1.18.30"
-    // testAnnotationProcessor "org.projectlombok:lombok:1.18.30"
-
-//    testImplementation platform "org.junit:junit-bom:5.10.0"
-//    testImplementation "org.junit.jupiter:junit-jupiter"
 }
 
 tasks.test {
