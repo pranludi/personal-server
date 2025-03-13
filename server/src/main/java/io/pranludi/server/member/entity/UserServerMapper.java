@@ -22,9 +22,9 @@ import org.mapstruct.ValueMapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-public interface UserMapper {
+public interface UserServerMapper {
 
-  UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+  UserServerMapper INSTANCE = Mappers.getMapper(UserServerMapper.class);
 
   ZoneOffset DEFAULT_ZONE = ZoneOffset.of("+9");
 

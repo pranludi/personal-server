@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LoginService {
@@ -16,6 +17,7 @@ public class LoginService {
   @Autowired
   MemberService memberService;
 
+  @Transactional
   public Member login(String memberId, LocalDateTime currentTime) {
     Optional<Member> optMember = memberService.getMember(memberId);
     if (optMember.isEmpty()) {

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package io.pranludi.server.protobuf.service;
+
+option java_package = "io.pranludi.server.protobuf.service";
+
+import "service-entities.proto";
+
+service MemberService {
+  rpc Login (LoginRequest) returns (LoginResponse) {}
+}
+
+message LoginRequest {
+  string member_id = 1;
+}
+
+message LoginResponse {
+  MemberStateDTO member_state = 1;
+}
