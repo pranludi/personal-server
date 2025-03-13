@@ -1,4 +1,4 @@
-package io.pranludi.server.member.entity;
+package io.pranludi.server.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

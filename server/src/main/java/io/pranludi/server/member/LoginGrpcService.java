@@ -1,38 +1,35 @@
-package io.pranludi.server.member.controller;
+package io.pranludi.server.member;
 
 import io.grpc.stub.StreamObserver;
+import io.pranludi.server.config.interceptor.GrpcRequestInterceptor;
 import io.pranludi.server.domain.member.Member;
+import io.pranludi.server.domain.metadata.EnvironmentData;
+import io.pranludi.server.entity.ServiceMapper;
 import io.pranludi.server.exception.CommonException;
-import io.pranludi.server.member.entity.UserServiceMapper;
-import io.pranludi.server.member.service.LoginService;
-import io.pranludi.server.metadata.service.MetadataService;
 import io.pranludi.server.protobuf.service.Member.LoginRequest;
 import io.pranludi.server.protobuf.service.Member.LoginResponse;
 import io.pranludi.server.protobuf.service.MemberServiceGrpc.MemberServiceImplBase;
 import io.pranludi.server.protobuf.service.MemberStateDTO;
-import java.time.LocalDateTime;
+import io.pranludi.server.util.MakeEnvironment;
 import org.springframework.grpc.server.service.GrpcService;
 
-@GrpcService
-public class LoginGrpcController extends MemberServiceImplBase {
+@GrpcService(interceptors = {GrpcRequestInterceptor.class})
+public class LoginGrpcService extends MemberServiceImplBase {
 
-  final MetadataService metadataService;
   final LoginService loginService;
+  final MakeEnvironment makeEnvironment;
 
-  public LoginGrpcController(MetadataService metadataService, LoginService loginService) {
-    this.metadataService = metadataService;
+  public LoginGrpcService(MakeEnvironment makeEnvironment, LoginService loginService) {
+    this.makeEnvironment = makeEnvironment;
     this.loginService = loginService;
   }
 
-
   @Override
   public void login(LoginRequest req, StreamObserver<LoginResponse> responseObserver) {
-
     try {
-      String memberId = req.getMemberId();
-      LocalDateTime currentTime = metadataService.currentDataTime();
-      Member memberDoc = loginService.login(memberId, currentTime);
-      MemberStateDTO memberState = UserServiceMapper.INSTANCE.entityToProto(memberDoc);
+      EnvironmentData env = makeEnvironment.make();
+      Member memberDoc = loginService.login(env);
+      MemberStateDTO memberState = ServiceMapper.INSTANCE.entityToProto(memberDoc);
 
       LoginResponse res = LoginResponse.newBuilder().setMemberState(memberState).build();
       responseObserver.onNext(res);
@@ -40,6 +37,5 @@ public class LoginGrpcController extends MemberServiceImplBase {
     } catch (Exception e) {
       throw new CommonException("Exception");
     }
-
   }
 }

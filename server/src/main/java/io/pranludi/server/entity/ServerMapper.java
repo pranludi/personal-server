@@ -1,15 +1,15 @@
-package io.pranludi.server.member.entity;
+package io.pranludi.server.entity;
 
+import io.pranludi.server.protobuf.server.CurrencyDTO;
+import io.pranludi.server.protobuf.server.ItemDTO;
+import io.pranludi.server.protobuf.server.MemberNameDTO;
+import io.pranludi.server.protobuf.server.MemberStateDTO;
+import io.pranludi.server.protobuf.server.MemberStatusDTO;
 import io.pranludi.server.domain.member.Currency;
 import io.pranludi.server.domain.member.Item;
 import io.pranludi.server.domain.member.Member;
 import io.pranludi.server.domain.member.MemberName;
 import io.pranludi.server.domain.member.MemberStatus;
-import io.pranludi.server.protobuf.service.CurrencyDTO;
-import io.pranludi.server.protobuf.service.ItemDTO;
-import io.pranludi.server.protobuf.service.MemberNameDTO;
-import io.pranludi.server.protobuf.service.MemberStateDTO;
-import io.pranludi.server.protobuf.service.MemberStatusDTO;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -22,9 +22,9 @@ import org.mapstruct.ValueMapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-public interface UserServiceMapper {
+public interface ServerMapper {
 
-  UserServiceMapper INSTANCE = Mappers.getMapper(UserServiceMapper.class);
+  ServerMapper INSTANCE = Mappers.getMapper(ServerMapper.class);
 
   ZoneOffset DEFAULT_ZONE = ZoneOffset.of("+9");
 
