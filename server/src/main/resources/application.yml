@@ -1,0 +1,57 @@
+management:
+  endpoints:
+    web:
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include: prometheus
+      base-path: /
+  server:
+    port: 9090
+  health:
+    couchbase:
+      enabled: false
+
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1 # before 1024
+spring:
+  config:
+    activate:
+      on-profile:
+        - sandbox
+        - dev
+        - stg
+        - prod
+  application:
+    name: HBC Game Server
+  servlet:
+    multipart:
+      enabled: false
+  data:
+    redis:
+      port: ${CONF_REDIS_PORT}
+      host: ${CONF_REDIS_HOST}
+      password: ${CONF_REDIS_PASSWORD}
+      database: 2
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      jdbc-url: jdbc:postgresql://${CONF_POSTGRES_HOST}:${CONF_POSTGRES_PORT}/${CONF_POSTGRES_DB}
+      username: ${CONF_POSTGRES_USERNAME}
+      password: ${CONF_POSTGRES_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true

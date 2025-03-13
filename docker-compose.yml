@@ -1,0 +1,28 @@
+version: '3.8'
+name: server-docker
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      - TZ="Asia/Seoul"
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - PGDATA="/var/lib/postgresql/data/pgdata"
+    ports:
+      # postgres
+      - "5432:5432"
+      # redis
+      - "6379:6379"
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    network_mode: service:postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

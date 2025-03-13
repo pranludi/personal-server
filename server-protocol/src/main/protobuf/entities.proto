@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package io.pranludi.server.protobuf.server;
+
+option java_package = "io.pranludi.server.protobuf.server";
+option java_multiple_files = true;
+
+message MemberStateDTO {
+  int32 version = 1;
+  MemberStatusDTO member_status = 2;
+  MemberNameDTO member_name = 3;
+  int64 created_at = 4;
+  int64 login_at = 5;
+  repeated CurrencyDTO currencies = 6;
+  repeated ItemDTO items = 7;
+}
+
+enum MemberStatusDTO {
+  NONE = 0;
+  NORMAL = 1;
+}
+
+message CurrencyDTO {
+  int32 data_id = 1;
+  int64 free = 2;
+  int64 paid = 3;
+  int64 use_at = 4;
+  int64 until_at = 5;
+}
+
+message ItemDTO {
+  int32 data_id = 1;
+  int64 free = 2;
+  int64 paid = 3;
+  int64 use_at = 4;
+  int64 until_at = 5;
+}
+
+message MemberNameDTO {
+  string name = 1;
+  int32 edit_count = 2;
+}

@@ -1,0 +1,39 @@
+plugins {
+    id "java"
+    id "com.google.protobuf" version "0.9.4"
+}
+
+ext {
+    protobufVersion = "4.29.3"
+}
+
+dependencies {
+    // protobuf
+    implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: protobufVersion
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: protobufVersion
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+protobuf {
+    protoc {
+        // for apple m1, please add protoc_platform=osx-x86_64 in $HOME/.gradle/gradle.properties
+        if (project.hasProperty('protoc_platform')) {
+            artifact = "com.google.protobuf:protoc:${protobufVersion}:${protoc_platform}"
+        } else {
+            artifact = "com.google.protobuf:protoc:${protobufVersion}"
+        }
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDirs += [
+                    'src/main/protobuf'
+            ]
+        }
+    }
+}
