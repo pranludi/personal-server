@@ -24,7 +24,7 @@ public class MemberService {
   public Function<EnvironmentData, Optional<Member>> getMember() {
     return (EnvironmentData env) -> {
       try {
-        Optional<User> raw = memberRepository.findById(env.memberId());
+        Optional<User> raw = memberRepository.findById(env.memberId().memberId());
         if (raw.isPresent()) {
           return Optional.of(ServerMapper.INSTANCE.protoToEntity(MemberStateDTO.parseFrom(raw.get().getMember())));
         }

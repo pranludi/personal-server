@@ -8,6 +8,7 @@ import "service-entities.proto";
 
 service MemberService {
   rpc Login (LoginRequest) returns (LoginResponse) {}
+  rpc ChangeName (ChangeNameRequest) returns (ChangeNameResponse) {}
 }
 
 message LoginRequest {
@@ -15,4 +16,12 @@ message LoginRequest {
 
 message LoginResponse {
   MemberStateDTO member_state = 1;
+}
+
+message ChangeNameRequest {
+  string name = 1;
+}
+
+message ChangeNameResponse {
+  MemberNameDTO member_name = 1;
 }

@@ -3,13 +3,14 @@ package io.pranludi.server.member;
 import io.grpc.stub.StreamObserver;
 import io.pranludi.server.config.interceptor.GrpcRequestInterceptor;
 import io.pranludi.server.domain.member.Member;
-import io.pranludi.server.domain.metadata.EnvironmentData;
+import io.pranludi.server.domain.member.MemberName;
 import io.pranludi.server.entity.ServiceMapper;
 import io.pranludi.server.exception.CommonException;
+import io.pranludi.server.protobuf.service.Member.ChangeNameRequest;
+import io.pranludi.server.protobuf.service.Member.ChangeNameResponse;
 import io.pranludi.server.protobuf.service.Member.LoginRequest;
 import io.pranludi.server.protobuf.service.Member.LoginResponse;
 import io.pranludi.server.protobuf.service.MemberServiceGrpc.MemberServiceImplBase;
-import io.pranludi.server.protobuf.service.MemberStateDTO;
 import io.pranludi.server.util.MakeEnvironment;
 import org.springframework.grpc.server.service.GrpcService;
 
@@ -27,11 +28,29 @@ public class LoginGrpcService extends MemberServiceImplBase {
   @Override
   public void login(LoginRequest req, StreamObserver<LoginResponse> responseObserver) {
     try {
-      EnvironmentData env = makeEnvironment.make();
-      Member memberDoc = loginService.login(env);
-      MemberStateDTO memberState = ServiceMapper.INSTANCE.entityToProto(memberDoc);
+      Member memberDoc = loginService.login()
+        .apply(makeEnvironment.make());
 
-      LoginResponse res = LoginResponse.newBuilder().setMemberState(memberState).build();
+      LoginResponse res = LoginResponse.newBuilder()
+        .setMemberState(ServiceMapper.INSTANCE.entityToProto(memberDoc))
+        .build();
+      responseObserver.onNext(res);
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      throw new CommonException("Exception");
+    }
+  }
+
+  @Override
+  public void changeName(ChangeNameRequest req, StreamObserver<ChangeNameResponse> responseObserver) {
+    try {
+      MemberName memberName = loginService
+        .changeMemberName(req.getName())
+        .apply(makeEnvironment.make());
+
+      ChangeNameResponse res = ChangeNameResponse.newBuilder()
+        .setMemberName(ServiceMapper.INSTANCE.entityToProto(memberName))
+        .build();
       responseObserver.onNext(res);
       responseObserver.onCompleted();
     } catch (Exception e) {

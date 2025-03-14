@@ -1,5 +1,6 @@
 package io.pranludi.server.entity;
 
+import io.pranludi.server.domain.member.MemberId;
 import io.pranludi.server.protobuf.server.CurrencyDTO;
 import io.pranludi.server.protobuf.server.ItemDTO;
 import io.pranludi.server.protobuf.server.MemberNameDTO;
@@ -42,6 +43,9 @@ public interface ServerMapper {
   MemberStatusDTO entityToProto(MemberStatus entity);
 
   // ---
+//  MemberId protoToEntity(MemberIdDTO proto);
+//
+//  MemberIdDTO entityToProto(MemberId entity);
 
   MemberName protoToEntity(MemberNameDTO proto);
 

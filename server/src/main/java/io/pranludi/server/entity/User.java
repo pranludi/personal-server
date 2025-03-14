@@ -1,5 +1,6 @@
 package io.pranludi.server.entity;
 
+import io.pranludi.server.domain.member.MemberId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -13,21 +14,13 @@ public class User {
   public User() {
   }
 
-  public User(String memberId, byte[] member) {
-    this.memberId = memberId;
+  public User(MemberId memberId, byte[] member) {
+    this.memberId = memberId.memberId();
     this.member = member;
-  }
-
-  public String getMemberId() {
-    return memberId;
   }
 
   public byte[] getMember() {
     return member;
-  }
-
-  public void setMemberId(String memberId) {
-    this.memberId = memberId;
   }
 
   public void setMember(byte[] member) {
