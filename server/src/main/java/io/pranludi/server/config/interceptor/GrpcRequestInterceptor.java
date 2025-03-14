@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
 public class GrpcRequestInterceptor implements ServerInterceptor {
 
   @Override
-  public <ReqT, RespT> Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall, Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler) {
+  public <ReqT, RespT> Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall
+    , Metadata metadata
+    , ServerCallHandler<ReqT, RespT> serverCallHandler) {
     String memberId = metadata.get(InterceptorConstant.MD_MEMBER_ID);
     Context context = Context.current().withValue(InterceptorConstant.CTX_MEMBER_ID, new MemberId(memberId));
     return Contexts.interceptCall(context, serverCall, metadata, serverCallHandler);

@@ -2,24 +2,22 @@ package io.pranludi.server.exception;
 
 import java.util.Arrays;
 
-public class ServerException extends RuntimeException {
+public class ServerError extends RuntimeException {
 
-  static final long serialVersionUID = 1;
-
-  public static final ServerException INVALID_AUTH_SERVER = new ServerException("인증 에러가 발생하였습니다. (20001)", 20001);
-  public static final ServerException GENERAL_ERROR = new ServerException("에러가 발생하였습니다. (50000)", 50000);
+//  public static final ServerError INVALID_AUTH_SERVER = new ServerError("인증 에러가 발생하였습니다. (20001)", 20001);
+//  public static final ServerError GENERAL_ERROR = new ServerError("에러가 발생하였습니다. (50000)", 50000);
 
   private String message;
   private int code;
   private Object[] arguments;
 
-  public ServerException(String message, int code) {
+  public ServerError(String message, int code) {
     super(message);
     this.message = message;
     this.code = code;
   }
 
-  public ServerException(String message, Object... arguments) {
+  public ServerError(String message, Object... arguments) {
     this.message = message;
     this.arguments = arguments;
   }

@@ -4,6 +4,7 @@ import io.pranludi.server.domain.member.Member;
 import io.pranludi.server.domain.metadata.EnvironmentData;
 import io.pranludi.server.entity.ServerMapper;
 import io.pranludi.server.entity.User;
+import io.pranludi.server.exception.MapperException;
 import io.pranludi.server.exception.MemberNotFoundException;
 import io.pranludi.server.logic.MigrationLogic;
 import io.pranludi.server.protobuf.server.MemberStateDTO;
@@ -29,13 +30,13 @@ public class MemberService {
           return Optional.of(ServerMapper.INSTANCE.protoToEntity(MemberStateDTO.parseFrom(raw.get().getMember())));
         }
       } catch (Exception e) {
-        e.printStackTrace();
+        throw new MapperException(e.getMessage());
       }
       return Optional.empty();
     };
   }
 
-  public Function<EnvironmentData, Member> findMember() throws MemberNotFoundException {
+  public Function<EnvironmentData, Member> findMember() {
     return (EnvironmentData env) -> {
       Optional<Member> optMember = getMember().apply(env);
       if (optMember.isEmpty()) {
@@ -51,7 +52,7 @@ public class MemberService {
         MemberStateDTO memberState = ServerMapper.INSTANCE.entityToProto(member);
         memberRepository.save(new User(env.memberId(), memberState.toByteArray()));
       } catch (Exception e) {
-        e.printStackTrace();
+        throw new MapperException(e.getMessage());
       }
     };
   }
