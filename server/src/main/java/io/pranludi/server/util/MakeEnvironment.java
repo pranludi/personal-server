@@ -1,6 +1,7 @@
 package io.pranludi.server.util;
 
 import io.pranludi.server.config.interceptor.InterceptorConstant;
+import io.pranludi.server.domain.member.MemberId;
 import io.pranludi.server.domain.metadata.EnvironmentData;
 import io.pranludi.server.metadata.MetadataService;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ public class MakeEnvironment {
   }
 
   public EnvironmentData make() {
-    String memberId = InterceptorConstant.CTX_MEMBER_ID.get();
+    MemberId memberId = InterceptorConstant.CTX_MEMBER_ID.get();
 
     EnvironmentData environmentData = new EnvironmentData(memberId, LocalDateTime.now(), metadataService.get());
 
