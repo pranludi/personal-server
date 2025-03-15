@@ -2,7 +2,7 @@ package io.pranludi.server.config.interceptor;
 
 import io.grpc.Context;
 import io.grpc.Metadata;
-import io.pranludi.server.domain.member.MemberId;
+import io.pranludi.server.domain.entity.MemberId;
 
 public class InterceptorConstant {
 

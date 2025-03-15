@@ -1,7 +1,7 @@
 package io.pranludi.server.member;
 
 import io.pranludi.server.domain.member.Member;
-import io.pranludi.server.domain.member.MemberName;
+import io.pranludi.server.domain.entity.MemberName;
 import io.pranludi.server.domain.metadata.EnvironmentData;
 import io.pranludi.server.logic.MemberLogic;
 import jakarta.transaction.Transactional;
@@ -21,6 +21,7 @@ public class LoginService {
   @Transactional
   public Function<EnvironmentData, Member> login() {
     return (EnvironmentData env) -> {
+      System.out.println("env = " + env.memberId().memberId());
       Optional<Member> optMember = memberService.getMember().apply(env);
       Member member = getMember(env, optMember);
       memberService.save(member).accept(env);

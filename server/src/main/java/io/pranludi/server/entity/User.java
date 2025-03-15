@@ -1,6 +1,6 @@
 package io.pranludi.server.entity;
 
-import io.pranludi.server.domain.member.MemberId;
+import io.pranludi.server.domain.entity.MemberId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 

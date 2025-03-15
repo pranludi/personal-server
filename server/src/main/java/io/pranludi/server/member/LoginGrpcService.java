@@ -4,7 +4,7 @@ import io.grpc.stub.StreamObserver;
 import io.pranludi.server.config.interceptor.GrpcRequestInterceptor;
 import io.pranludi.server.config.interceptor.GrpcResponseInterceptor;
 import io.pranludi.server.domain.member.Member;
-import io.pranludi.server.domain.member.MemberName;
+import io.pranludi.server.domain.entity.MemberName;
 import io.pranludi.server.entity.ServiceMapper;
 import io.pranludi.server.protobuf.service.Member.ChangeNameRequest;
 import io.pranludi.server.protobuf.service.Member.ChangeNameResponse;

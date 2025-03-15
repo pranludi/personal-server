@@ -1,25 +1,33 @@
 package io.pranludi.server.entity;
 
+import io.pranludi.server.domain.entity.ItemDataId;
+import io.pranludi.server.domain.entity.MemberName;
 import io.pranludi.server.domain.member.Currency;
 import io.pranludi.server.domain.member.Item;
 import io.pranludi.server.domain.member.Member;
-import io.pranludi.server.domain.member.MemberName;
 import io.pranludi.server.domain.member.MemberStatus;
+import io.pranludi.server.domain.member.Reward;
+import io.pranludi.server.domain.member.RewardCurrency;
+import io.pranludi.server.domain.member.RewardItem;
+import io.pranludi.server.domain.member.RewardProfile;
+import io.pranludi.server.protobuf.service.CurrenciesDTO;
 import io.pranludi.server.protobuf.service.CurrencyDTO;
 import io.pranludi.server.protobuf.service.ItemDTO;
+import io.pranludi.server.protobuf.service.ItemsDTO;
 import io.pranludi.server.protobuf.service.MemberNameDTO;
 import io.pranludi.server.protobuf.service.MemberStateDTO;
 import io.pranludi.server.protobuf.service.MemberStatusDTO;
-import java.time.Instant;
+import io.pranludi.server.protobuf.service.RewardDTO;
+import io.pranludi.server.protobuf.service.RewardElementDTO;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Map;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValueCheckStrategy;
-import org.mapstruct.ValueMapping;
 import org.mapstruct.factory.Mappers;
+
+// Entity -> Protobuf
 
 @Mapper(collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface ServiceMapper {
@@ -32,35 +40,53 @@ public interface ServiceMapper {
     return localDateTime.toInstant(DEFAULT_ZONE).toEpochMilli();
   }
 
-  default LocalDateTime longToLocalDateTime(long millis) {
-    return LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), DEFAULT_ZONE);
-  }
-
-  @ValueMapping(source = "UNRECOGNIZED", target = MappingConstants.NULL)
-  MemberStatus protoToEntity(MemberStatusDTO proto);
-
   MemberStatusDTO entityToProto(MemberStatus entity);
 
   // ---
 
-  MemberName protoToEntity(MemberNameDTO proto);
-
   MemberNameDTO entityToProto(MemberName entity);
-
-  Currency protoToEntity(CurrencyDTO proto);
 
   CurrencyDTO entityToProto(Currency entity);
 
-  Item protoToEntity(ItemDTO proto);
-
   ItemDTO entityToProto(Item entity);
 
-  @Mapping(source = "itemsList", target = "items")
-  @Mapping(source = "currenciesList", target = "currencies")
-  Member protoToEntity(MemberStateDTO proto);
+  default CurrenciesDTO currencyMap(Map<ItemDataId, Currency> value) {
+    CurrenciesDTO.Builder builder = CurrenciesDTO.newBuilder();
+    for (Currency currency : value.values()) {
+      builder.addCurrencies(entityToProto(currency));
+    }
+    return builder.build();
+  }
 
-  @Mapping(source = "items", target = "itemsList")
-  @Mapping(source = "currencies", target = "currenciesList")
+  default ItemsDTO itemMap(Map<ItemDataId, Item> value) {
+    ItemsDTO.Builder builder = ItemsDTO.newBuilder();
+    for (Item item : value.values()) {
+      builder.addItems(entityToProto(item));
+    }
+    return builder.build();
+  }
+
   MemberStateDTO entityToProto(Member entity);
+
+  RewardElementDTO.Currency entityToProto(RewardCurrency entity);
+
+  RewardElementDTO.Item entityToProto(RewardItem entity);
+
+  RewardElementDTO.Profile entityToProto(RewardProfile entity);
+
+  default RewardDTO rewardEntityToProto(Reward entity) {
+    if (entity.reward().currency().dataId() != 0) {
+      return RewardDTO.newBuilder()
+        .setReward(RewardElementDTO.newBuilder().setCurrency(entityToProto(entity.reward().currency())).build()).build();
+    } else if (entity.reward().item().dataId() != 0) {
+      return RewardDTO.newBuilder()
+        .setReward(RewardElementDTO.newBuilder().setItem(entityToProto(entity.reward().item())).build()).build();
+    } else if (entity.reward().profile().dataId() != 0) {
+      return RewardDTO.newBuilder()
+        .setReward(RewardElementDTO.newBuilder().setProfile(entityToProto(entity.reward().profile())).build()).build();
+    } else {
+      throw new IllegalArgumentException("Unknown reward type");
+    }
+  }
 
 }

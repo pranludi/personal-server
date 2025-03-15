@@ -1,7 +1,7 @@
 package io.pranludi.server.util;
 
 import io.pranludi.server.config.interceptor.InterceptorConstant;
-import io.pranludi.server.domain.member.MemberId;
+import io.pranludi.server.domain.entity.MemberId;
 import io.pranludi.server.domain.metadata.EnvironmentData;
 import io.pranludi.server.metadata.MetadataService;
 import java.time.LocalDateTime;
