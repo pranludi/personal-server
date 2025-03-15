@@ -7,7 +7,7 @@ import io.grpc.ServerCall;
 import io.grpc.ServerCall.Listener;
 import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
-import io.pranludi.server.domain.member.MemberId;
+import io.pranludi.server.domain.entity.MemberId;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 

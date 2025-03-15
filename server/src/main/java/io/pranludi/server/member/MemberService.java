@@ -40,7 +40,7 @@ public class MemberService {
     return (EnvironmentData env) -> {
       Optional<Member> optMember = getMember().apply(env);
       if (optMember.isEmpty()) {
-        throw new MemberNotFoundException("member not found");
+        throw new MemberNotFoundException("member not found : " + env.memberId().memberId());
       }
       return MigrationLogic.migration(optMember.get(), env.metadata());
     };

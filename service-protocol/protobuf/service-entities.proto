@@ -11,13 +11,17 @@ message MemberStateDTO {
   MemberNameDTO member_name = 3;
   int64 created_at = 4;
   int64 login_at = 5;
-  repeated CurrencyDTO currencies = 6;
-  repeated ItemDTO items = 7;
+  CurrenciesDTO currencies = 6;
+  ItemsDTO items = 7;
 }
 
 enum MemberStatusDTO {
   NONE = 0;
   NORMAL = 1;
+}
+
+message CurrenciesDTO {
+  repeated CurrencyDTO currencies = 1;
 }
 
 message CurrencyDTO {
@@ -26,6 +30,10 @@ message CurrencyDTO {
   int64 paid = 3;
   int64 use_at = 4;
   int64 until_at = 5;
+}
+
+message ItemsDTO {
+  repeated ItemDTO items = 1;
 }
 
 message ItemDTO {
@@ -40,3 +48,64 @@ message MemberNameDTO {
   string name = 1;
   int32 edit_count = 2;
 }
+
+message RewardDTO {
+  // 실제 받게 되는 보상
+  RewardElementDTO reward = 1;
+  // 대체 되는 보상 정보. 없다면 no_converted_reward
+  //  oneof converted_reward {
+  //    ConvertedReward converted_reward_value = 2;
+  //    Empty no_converted_reward = 3;
+  //  }
+  // 원본의 추가 보상 정보. 없다면 빈 배열
+  //  repeated RewardElement additional_rewards = 4;
+}
+
+message RewardElementDTO {
+  message Currency {
+    int32 data_id = 1;
+    int64 paid = 2;
+    int64 free = 3;
+  }
+
+  message Item {
+    int32 data_id = 1;
+    int64 amount = 2;
+  }
+
+  message Profile {
+    int32 data_id = 1;
+  }
+
+  oneof value {
+    Currency currency = 1;
+    Item item = 2;
+    Profile profile = 3;
+  }
+}
+
+//message ConvertedReward {
+//  int32 replaced_origin_data_id = 1;
+//  int64 replaced_origin_quantity = 2;
+//  repeated RewardElement rewards = 3;
+//}
+
+message PaymentDTO {
+  message Currency {
+    int32 data_id = 1;
+    int64 paid = 2;
+    int64 free = 3;
+  }
+
+  message Item {
+    int32 data_id = 1;
+    int64 amount = 2;
+  }
+
+  oneof value {
+    Currency currency = 1;
+    Item item = 2;
+  }
+}
+
+message Empty {}

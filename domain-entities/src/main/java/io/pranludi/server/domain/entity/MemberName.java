@@ -1,4 +1,4 @@
-package io.pranludi.server.domain.member;
+package io.pranludi.server.domain.entity;
 
 public record MemberName(
   String name, // 사용자 닉네임

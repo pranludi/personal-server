@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package io.pranludi.server.protobuf.service;
+
+option java_package = "io.pranludi.server.protobuf.service";
+
+import "service-entities.proto";
+
+service CheatService {
+  rpc CheatReward (CheatRewardRequest) returns (CheatRewardResponse) {}
+  rpc CheatPayment (CheatPaymentRequest) returns (CheatPaymentResponse) {}
+}
+
+message CheatRewardRequest {
+  int32 item_data_id = 1;
+  int64 amount = 2;
+}
+
+message CheatRewardResponse {
+  repeated RewardDTO rewards = 1;
+}
+
+message CheatPaymentRequest {
+  int32 item_data_id = 1;
+  int64 amount = 2;
+}
+
+message CheatPaymentResponse {
+  PaymentDTO payment = 1;
+}

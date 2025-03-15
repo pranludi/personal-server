@@ -1,8 +1,10 @@
 package io.pranludi.server.domain.member;
 
+import io.pranludi.server.domain.entity.ItemDataId;
+import io.pranludi.server.domain.entity.MemberName;
 import io.soabase.recordbuilder.core.RecordBuilder;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Map;
 
 @RecordBuilder
 public record Member(
@@ -11,8 +13,8 @@ public record Member(
   MemberName memberName, // 사용자 닉네임
   LocalDateTime createdAt,
   LocalDateTime loginAt,
-  List<Currency> currencies, // 사용자 보유 재화 목록
-  List<Item> items // 사용자 보유 아이템 목록
+  Map<ItemDataId, Currency> currencies, // 사용자 보유 재화 목록
+  Map<ItemDataId, Item> items // 사용자 보유 아이템 목록
 ) implements MemberBuilder.With {
 
 }
