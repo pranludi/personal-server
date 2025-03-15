@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.pranludi.puzzle" level="debug">
+    <logger name="com.pranludi.server" level="debug">
         <appender-ref ref="STDOUT"/>
     </logger>
 
