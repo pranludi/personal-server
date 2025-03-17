@@ -35,7 +35,7 @@ public interface ServerMapper {
 
   ZoneOffset DEFAULT_ZONE = ZoneOffset.of("+9");
 
-  default Long localDateTimeToLong(LocalDateTime localDateTime) {
+  default long localDateTimeToLong(LocalDateTime localDateTime) {
     return localDateTime.toInstant(DEFAULT_ZONE).toEpochMilli();
   }
 

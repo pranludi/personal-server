@@ -9,7 +9,6 @@ import io.pranludi.server.entity.ServiceMapper;
 import io.pranludi.server.protobuf.service.Cheat.CheatRewardRequest;
 import io.pranludi.server.protobuf.service.Cheat.CheatRewardResponse;
 import io.pranludi.server.protobuf.service.CheatServiceGrpc.CheatServiceImplBase;
-import io.pranludi.server.protobuf.service.RewardDTO;
 import io.pranludi.server.util.MakeEnvironment;
 import org.springframework.grpc.server.service.GrpcService;
 
@@ -30,12 +29,8 @@ public class CheatGrpcService extends CheatServiceImplBase {
       .cheatReward(new ItemDataId(req.getItemDataId()), req.getAmount())
       .apply(makeEnvironment.make());
 
-    RewardDTO rewardDTO = ServiceMapper.INSTANCE.rewardEntityToProto(reward);
-    System.out.println("reward = " + reward);
-    System.out.println("rewardDTO = " + rewardDTO);
-
     CheatRewardResponse res = CheatRewardResponse.newBuilder()
-      .addRewards(rewardDTO)
+      .addRewards(ServiceMapper.INSTANCE.rewardEntityToProto(reward))
       .build();
     responseObserver.onNext(res);
     responseObserver.onCompleted();
